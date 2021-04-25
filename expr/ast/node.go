@@ -34,7 +34,7 @@ type MethodNode struct {
 
 type FunctionNode struct {
 	base
-	Node      Node
+	Name      string
 	Arguments []Node
 }
 

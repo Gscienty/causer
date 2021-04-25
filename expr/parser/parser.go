@@ -170,9 +170,10 @@ func (p *parser) parsePrimary() ast.Node {
 
 func (p *parser) parseIdentifier(token Token) ast.Node {
 	if p.current.Kind == TokenKindBracket && p.current.Value == "(" {
+		p.next()
 		arguments := p.parseArguments()
 		return &ast.FunctionNode{
-			Node:      &ast.IdentifierNode{Value: token.Value},
+			Name:      token.Value,
 			Arguments: arguments,
 		}
 	} else {
@@ -203,6 +204,7 @@ func (p *parser) parsePostfix(node ast.Node) ast.Node {
 			}
 
 			if p.current.Kind == TokenKindBracket && p.current.Value == "(" {
+				p.next()
 				args := p.parseArguments()
 				node = &ast.MethodNode{
 					Node:      node,
@@ -219,7 +221,7 @@ func (p *parser) parsePostfix(node ast.Node) ast.Node {
 			p.next()
 			args := p.parseArguments()
 			node = &ast.FunctionNode{
-				Node:      node,
+				Name:      token.Value,
 				Arguments: args,
 			}
 		} else {
